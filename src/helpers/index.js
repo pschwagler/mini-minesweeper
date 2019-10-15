@@ -91,12 +91,10 @@ const helperFxns = {
 
       if (!state[currCoords].isBomb) {
         for (let coords of adjacentCoords) {
-          if (
-            state[coords] &&
-            state[coords].status === 'DEFAULT' &&
-            state[coords].number === 0
-          ) {
-            helperFxns.uncoverCell(state, coords);
+          if (state[coords] && state[coords].status === 'DEFAULT') {
+            if (state[coords].number === 0)
+              helperFxns.uncoverCell(state, coords);
+            else state[coords].status = 'UNCOVERED';
           }
         }
       }
