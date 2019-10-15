@@ -30,3 +30,35 @@
   border: 1px solid rgb(135, 147, 165);
   background-color: rgb(157, 167, 179);
 }
+
+.one {
+  color: blue;
+}
+
+.two {
+  color: green;
+}
+
+.three {
+  color: red;
+}
+
+.four {
+  color: purple;
+}
+
+.five {
+  color: maroon;
+}
+
+.six {
+  color: turquoise;
+}
+
+.seven {
+  color: black;
+}
+
+.eight {
+  color: grey;
+}

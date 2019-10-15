@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Cell from './Cell.jsx';
 
 const Board = ({ matrix }) => {
-  console.log('rendering board', matrix);
   // todo... only rerender the specific cell that
   // is updated instead of the entire board
   return (
@@ -11,7 +10,7 @@ const Board = ({ matrix }) => {
       {Object.keys(matrix).map(
         coords =>
           coords === 'initialized' || (
-            <Cell cellData={matrix[coords]} coords={coords} />
+            <Cell key={coords} cellData={matrix[coords]} coords={coords} />
           )
       )}
     </div>
