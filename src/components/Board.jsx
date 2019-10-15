@@ -1,10 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Cell from './Cell.jsx';
 
-const Board = () => <div>Hello Board</div>;
+const Board = ({ matrix }) => {
+  console.log('rendering board', matrix);
+  // todo... only rerender the specific cell that
+  // is updated instead of the entire board
+  return (
+    <div className='board'>
+      {Object.keys(matrix).map(
+        coords =>
+          coords === 'initialized' || (
+            <Cell cellData={matrix[coords]} coords={coords} />
+          )
+      )}
+    </div>
+  );
+};
 
 // export default Todo;
 export default connect(
-  null,
+  state => ({
+    matrix: state.matrix
+  }),
   null
 )(Board);

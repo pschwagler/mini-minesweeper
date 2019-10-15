@@ -1,2 +1,6 @@
 import { combineReducers } from 'redux';
-export default combineReducers({}, {});
+import matrixReducer from './matrixReducer.js';
+
+export default combineReducers({
+  matrix: matrixReducer
+});
