@@ -8,23 +8,29 @@ const partialShuffle = (arr, numItems) => {
   return arr;
 };
 
+const getAdjacents = (row, col) => {
+  let adjacentCoords = [];
+  adjacentCoords.push('' + (row - 1) + ',' + (col - 1));
+  adjacentCoords.push('' + (row - 1) + ',' + col);
+  adjacentCoords.push('' + (row - 1) + ',' + (col + 1));
+  adjacentCoords.push('' + row + ',' + (col - 1));
+  adjacentCoords.push('' + row + ',' + (col + 1));
+  adjacentCoords.push('' + (row + 1) + ',' + (col - 1));
+  adjacentCoords.push('' + (row + 1) + ',' + col);
+  adjacentCoords.push('' + (row + 1) + ',' + (col + 1));
+  return adjacentCoords;
+};
+
 const getNumBombs = (state, coords) => {
   const [row, col] = coords.split(',').map(num => +num);
 
-  let checkCoords = [];
-  checkCoords.push('' + (row - 1) + ',' + (col - 1));
-  checkCoords.push('' + (row - 1) + ',' + col);
-  checkCoords.push('' + (row - 1) + ',' + (col + 1));
-  checkCoords.push('' + row + ',' + (col - 1));
-  checkCoords.push('' + row + ',' + (col + 1));
-  checkCoords.push('' + (row + 1) + ',' + (col - 1));
-  checkCoords.push('' + (row + 1) + ',' + col);
-  checkCoords.push('' + (row + 1) + ',' + (col + 1));
+  const checkCoords = getAdjacents(row, col);
 
-  return checkCoords.reduce((numBombs, checkCoord) => {
-    state[checkCoord] && state[checkCoord].isBomb && numBombs++;
-    return numBombs;
-  }, 0);
+  return checkCoords.reduce(
+    (numBombs, checkCoord) =>
+      state[checkCoord] && state[checkCoord].isBomb ? numBombs + 1 : numBombs,
+    0
+  );
 };
 
 const helperFxns = {
@@ -82,13 +88,8 @@ const helperFxns = {
     state[currCoords].status = 'UNCOVERED';
 
     if (state[currCoords].number === 0) {
-      const adjacentCoords = [];
       const [row, col] = currCoords.split(',').map(num => +num);
-      adjacentCoords.push('' + (row - 1) + ',' + col);
-      adjacentCoords.push('' + (row + 1) + ',' + col);
-      adjacentCoords.push('' + row + ',' + (col - 1));
-      adjacentCoords.push('' + row + ',' + (col + 1));
-
+      const adjacentCoords = getAdjacents(row, col);
       if (!state[currCoords].isBomb) {
         for (let coords of adjacentCoords) {
           if (state[coords] && state[coords].status === 'DEFAULT') {
