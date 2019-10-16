@@ -1,13 +1,3 @@
-const partialShuffle = (arr, numItems) => {
-  for (let i = 0; i < numItems + 2; i++) {
-    let randIndex = Math.floor(Math.random() * arr.length);
-    let tmp = arr[i];
-    arr[i] = arr[randIndex];
-    arr[randIndex] = tmp;
-  }
-  return arr;
-};
-
 const getAdjacents = (row, col) => {
   let adjacentCoords = [];
   adjacentCoords.push('' + (row - 1) + ',' + (col - 1));
@@ -21,23 +11,9 @@ const getAdjacents = (row, col) => {
   return adjacentCoords;
 };
 
-const getNumBombs = (state, coords) => {
-  const [row, col] = coords.split(',').map(num => +num);
-
-  const checkCoords = getAdjacents(row, col);
-
-  return checkCoords.reduce(
-    (numBombs, checkCoord) =>
-      state[checkCoord] && state[checkCoord].isBomb ? numBombs + 1 : numBombs,
-    0
-  );
-};
-
 const helperFxns = {
   createMatrix: n => {
-    let matrix = {
-      initialized: false
-    };
+    let matrix = {};
     for (let row = 0; row < n; row++) {
       for (let col = 0; col < n; col++) {
         matrix['' + row + ',' + col] = {
@@ -50,33 +26,26 @@ const helperFxns = {
     return matrix;
   },
 
-  createBombs: (state, currCoords, numBombs) => {
-    // TODO: move into intialize function
-    let availableCoords = partialShuffle(Object.keys(state), numBombs);
+  getNumBombs: (state, coords) => {
+    const [row, col] = coords.split(',').map(num => +num);
 
-    let i = 0;
-    while (numBombs !== 0) {
-      if (
-        availableCoords[i] !== 'initialized' &&
-        availableCoords[i] !== currCoords
-      ) {
-        state[availableCoords[i]].isBomb = true;
-        numBombs--;
-      }
-      i++;
+    const checkCoords = getAdjacents(row, col);
+
+    return checkCoords.reduce(
+      (numBombs, checkCoord) =>
+        state[checkCoord] && state[checkCoord].isBomb ? numBombs + 1 : numBombs,
+      0
+    );
+  },
+
+  partialShuffle: (arr, numItems) => {
+    for (let i = 0; i < numItems + 2; i++) {
+      let randIndex = Math.floor(Math.random() * arr.length);
+      let tmp = arr[i];
+      arr[i] = arr[randIndex];
+      arr[randIndex] = tmp;
     }
-
-    // assign numbers TODO: move to separate fxn
-    for (let key of Object.keys(state)) {
-      if (key !== 'initialized') {
-        state[key].number = getNumBombs(state, key);
-      }
-    }
-
-    // make initialized TODO: make part of initialize fxn
-    state.initialized = true;
-
-    helperFxns.uncoverCell(state, currCoords);
+    return arr;
   },
 
   uncoverCell: (state, currCoords) => {

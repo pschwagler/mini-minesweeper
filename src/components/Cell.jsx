@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import uncoverCell from '../actions/uncoverCell.js';
+import uncoverCell from '../actions/unCoverCell.js';
+import initializeMatrix from '../actions/initializeMatrix.js';
+import initializeBombs from '../actions/initializeBombs.js';
 
 const generateClass = cellData => {
   if (cellData.status === 'DEFAULT') {
@@ -30,17 +32,27 @@ const generateClass = cellData => {
   }
 };
 
-const Cell = ({ cellData, coords, handleClick }) => {
+const Cell = ({
+  cellData,
+  coords,
+  handleUncoverCell,
+  initialized,
+  handleInitializeMatrix,
+  handleInitializeBombs
+}) => {
   if (cellData.status === 'DEFAULT') {
     return (
       <div
         className={generateClass(cellData)}
         onClick={() => {
-          handleClick(coords);
+          if (!initialized) {
+            handleInitializeBombs(coords);
+            handleInitializeMatrix();
+          } else {
+            handleUncoverCell(coords);
+          }
         }}
-      >
-        {' '}
-      </div>
+      ></div>
     );
   } else if (cellData.status === 'UNCOVERED') {
     return (
@@ -59,9 +71,13 @@ const Cell = ({ cellData, coords, handleClick }) => {
 
 export default connect(
   (state, { coords }) => ({
-    cellData: state.matrix[coords]
+    cellData: state.matrix[coords],
+    initialized: state.initialized
   }),
   dispatch => ({
-    handleClick: coords => dispatch(uncoverCell(coords))
+    handleClick: coords => dispatch(uncoverCell(coords)),
+    handleInitializeMatrix: () => dispatch(initializeMatrix()),
+    handleInitializeBombs: coords => dispatch(initializeBombs(coords)),
+    handleUncoverCell: coords => dispatch(uncoverCell(coords))
   })
 )(Cell);

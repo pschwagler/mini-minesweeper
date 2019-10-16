@@ -7,12 +7,9 @@ const Board = ({ matrix }) => {
   // is updated instead of the entire board
   return (
     <div className='board'>
-      {Object.keys(matrix).map(
-        coords =>
-          coords === 'initialized' || (
-            <Cell key={coords} cellData={matrix[coords]} coords={coords} />
-          )
-      )}
+      {Object.keys(matrix).map(coords => (
+        <Cell key={coords} cellData={matrix[coords]} coords={coords} />
+      ))}
     </div>
   );
 };
