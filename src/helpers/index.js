@@ -26,14 +26,16 @@ const helperFxns = {
     return matrix;
   },
 
-  getNumBombs: (state, coords) => {
+  getNumBombs: (matrix, coords) => {
     const [row, col] = coords.split(',').map(num => +num);
 
     const checkCoords = getAdjacents(row, col);
 
     return checkCoords.reduce(
       (numBombs, checkCoord) =>
-        state[checkCoord] && state[checkCoord].isBomb ? numBombs + 1 : numBombs,
+        matrix[checkCoord] && matrix[checkCoord].isBomb
+          ? numBombs + 1
+          : numBombs,
       0
     );
   },
@@ -48,23 +50,22 @@ const helperFxns = {
     return arr;
   },
 
-  uncoverCell: (state, currCoords) => {
-    if (state[currCoords].isBomb) {
-      console.log('game over');
-      return (state[currCoords].status = 'BOMBED');
+  uncoverCell: (matrix, currCoords) => {
+    if (matrix[currCoords].isBomb) {
+      return (matrix[currCoords].status = 'BOMBED');
     }
 
-    state[currCoords].status = 'UNCOVERED';
+    matrix[currCoords].status = 'UNCOVERED';
 
-    if (state[currCoords].number === 0) {
+    if (matrix[currCoords].number === 0) {
       const [row, col] = currCoords.split(',').map(num => +num);
       const adjacentCoords = getAdjacents(row, col);
-      if (!state[currCoords].isBomb) {
+      if (!matrix[currCoords].isBomb) {
         for (let coords of adjacentCoords) {
-          if (state[coords] && state[coords].status === 'DEFAULT') {
-            if (state[coords].number === 0)
-              helperFxns.uncoverCell(state, coords);
-            else state[coords].status = 'UNCOVERED';
+          if (matrix[coords] && matrix[coords].status === 'DEFAULT') {
+            if (matrix[coords].number === 0)
+              helperFxns.uncoverCell(matrix, coords);
+            else matrix[coords].status = 'UNCOVERED';
           }
         }
       }

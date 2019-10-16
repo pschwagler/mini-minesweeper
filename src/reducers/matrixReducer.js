@@ -33,7 +33,6 @@ const matrixReducer = (state = initialState, action) => {
         newState[coords].number = helperFxns.getNumBombs(newState, coords);
       }
       helperFxns.uncoverCell(newState, action.coords);
-      console.log('initializing bombs reducer:', newState);
       return newState;
     default:
       return state;

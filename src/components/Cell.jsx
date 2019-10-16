@@ -28,7 +28,7 @@ const generateClass = cellData => {
       return 'cleared eight';
     }
   } else if (cellData.status === 'BOMBED') {
-    return 'cleared';
+    return 'cleared red';
   }
 };
 
@@ -38,34 +38,71 @@ const Cell = ({
   handleUncoverCell,
   initialized,
   handleInitializeMatrix,
-  handleInitializeBombs
+  handleInitializeBombs,
+  gameStatus
 }) => {
-  if (cellData.status === 'DEFAULT') {
-    return (
-      <div
-        className={generateClass(cellData)}
-        onClick={() => {
-          if (!initialized) {
-            handleInitializeBombs(coords);
-            handleInitializeMatrix();
-          } else {
-            handleUncoverCell(coords);
-          }
-        }}
-      ></div>
-    );
-  } else if (cellData.status === 'UNCOVERED') {
+  if (gameStatus === 'WON') {
+    cellData.status = 'UNCOVERED';
     return (
       <div className={generateClass(cellData)}>
-        {cellData.number === 0 ? '' : cellData.number}
+        {cellData.isBomb ? (
+          <img src='bomb-logo.png' className='cell-img'></img>
+        ) : cellData.number === 0 ? (
+          ''
+        ) : (
+          cellData.number
+        )}
       </div>
     );
-  } else if (cellData.status === 'BOMBED') {
-    return (
-      <div className={generateClass(cellData)}>
-        <img src='bomb-logo.png' className='cell-img'></img>
-      </div>
-    );
+  } else if (gameStatus === 'IN_PROGRESS') {
+    if (cellData.status === 'DEFAULT') {
+      return (
+        <div
+          className={generateClass(cellData)}
+          onClick={() => {
+            if (!initialized) {
+              handleInitializeBombs(coords);
+              handleInitializeMatrix();
+            } else {
+              handleUncoverCell(coords);
+            }
+          }}
+        ></div>
+      );
+    } else if (cellData.status === 'UNCOVERED') {
+      return (
+        <div className={generateClass(cellData)}>
+          {cellData.number === 0 ? '' : cellData.number}
+        </div>
+      );
+    } else if (cellData.status === 'BOMBED') {
+      return (
+        <div className={generateClass(cellData)}>
+          <img src='bomb-logo.png' className='cell-img'></img>
+        </div>
+      );
+    }
+  } else if (gameStatus === 'LOST') {
+    if (cellData.status === 'BOMBED') {
+      return (
+        <div className={generateClass(cellData)}>
+          <img src='bomb-logo.png' className='cell-img'></img>
+        </div>
+      );
+    } else if (cellData.isBomb) {
+      return (
+        <div className='cleared'>
+          <img src='bomb-logo.png' className='cell-img'></img>
+        </div>
+      );
+    } else {
+      cellData.status = 'UNCOVERED';
+      return (
+        <div className={generateClass(cellData)}>
+          {cellData.number === 0 ? '' : cellData.number}
+        </div>
+      );
+    }
   }
 };
 
