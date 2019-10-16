@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import uncoverCell from '../actions/unCoverCell.js';
 import initializeMatrix from '../actions/initializeMatrix.js';
 import initializeBombs from '../actions/initializeBombs.js';
+import startTimer from '../actions/startTimer.js';
 
 const generateClass = cellData => {
   if (cellData.status === 'DEFAULT') {
@@ -39,6 +40,7 @@ const Cell = ({
   initialized,
   handleInitializeMatrix,
   handleInitializeBombs,
+  handleStartTimer,
   gameStatus
 }) => {
   if (gameStatus === 'WON') {
@@ -63,6 +65,7 @@ const Cell = ({
             if (!initialized) {
               handleInitializeBombs(coords);
               handleInitializeMatrix();
+              handleStartTimer();
             } else {
               handleUncoverCell(coords);
             }
@@ -115,6 +118,7 @@ export default connect(
     handleClick: coords => dispatch(uncoverCell(coords)),
     handleInitializeMatrix: () => dispatch(initializeMatrix()),
     handleInitializeBombs: coords => dispatch(initializeBombs(coords)),
-    handleUncoverCell: coords => dispatch(uncoverCell(coords))
+    handleUncoverCell: coords => dispatch(uncoverCell(coords)),
+    handleStartTimer: () => dispatch(startTimer())
   })
 )(Cell);

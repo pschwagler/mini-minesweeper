@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import matrixReducer from './matrixReducer.js';
 import initializeReducer from './initializeReducer.js';
+import timerReducer from './timerReducer.js';
 
 export default combineReducers({
   matrix: matrixReducer,
-  initialized: initializeReducer
+  initialized: initializeReducer,
+  startTime: timerReducer
 });

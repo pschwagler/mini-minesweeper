@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Cell from './Cell.jsx';
 
-const Board = ({ matrix }) => {
+const Board = ({ matrix, startTime }) => {
   let gameStatus = '';
   const numUncovered = Object.values(matrix).reduce((memo, { status }) => {
     if (memo === -1 || status === 'BOMBED') {
@@ -19,6 +19,12 @@ const Board = ({ matrix }) => {
     gameStatus = 'WON';
   } else {
     gameStatus = 'IN_PROGRESS';
+  }
+
+  if (gameStatus === 'LOST' || gameStatus === 'WON') {
+    console.log(
+      `You ${gameStatus} in ${(Date.now() - startTime) / 1000} seconds`
+    );
   }
 
   return (
@@ -38,7 +44,9 @@ const Board = ({ matrix }) => {
 // export default Todo;
 export default connect(
   state => ({
-    matrix: state.matrix
+    matrix: state.matrix,
+    startTime: state.startTime,
+    initialized: state.initialized
   }),
   null
 )(Board);
