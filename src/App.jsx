@@ -1,10 +1,12 @@
 import React from 'react';
 import Board from './components/Board.jsx';
+import ScoreBoard from './components/Scoreboard.jsx';
 import './App.css';
 
 function App() {
   return (
     <div className='App'>
+      <ScoreBoard />
       <Board />
     </div>
   );

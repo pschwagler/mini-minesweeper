@@ -43,6 +43,7 @@ const Cell = ({
   handleStartTimer,
   gameStatus
 }) => {
+  console.log(gameStatus);
   if (gameStatus === 'WON') {
     cellData.status = 'UNCOVERED';
     return (
@@ -112,7 +113,8 @@ const Cell = ({
 export default connect(
   (state, { coords }) => ({
     cellData: state.matrix[coords],
-    initialized: state.initialized
+    initialized: state.initialized,
+    gameStatus: state.gameStatus
   }),
   dispatch => ({
     handleClick: coords => dispatch(uncoverCell(coords)),

@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Cell from './Cell.jsx';
+import handleGameInProgress from '../actions/handleGameInProgress.js';
+import handleGameLoss from '../actions/handleGameLoss.js';
+import handleGameWin from '../actions/handleGameWin.js';
 
-const Board = ({ matrix, startTime }) => {
+const Board = ({ matrix, startTime, hanldeLoss, handleWin, handleStart }) => {
   let gameStatus = '';
   const numUncovered = Object.values(matrix).reduce((memo, { status }) => {
     if (memo === -1 || status === 'BOMBED') {
@@ -14,17 +17,11 @@ const Board = ({ matrix, startTime }) => {
     }
   }, 0);
   if (numUncovered === -1) {
-    gameStatus = 'LOST';
+    handleLoss();
   } else if (numUncovered === 100 - 10) {
-    gameStatus = 'WON';
+    handleWin();
   } else {
-    gameStatus = 'IN_PROGRESS';
-  }
-
-  if (gameStatus === 'LOST' || gameStatus === 'WON') {
-    console.log(
-      `You ${gameStatus} in ${(Date.now() - startTime) / 1000} seconds`
-    );
+    handleStart();
   }
 
   return (
@@ -48,5 +45,9 @@ export default connect(
     startTime: state.startTime,
     initialized: state.initialized
   }),
-  null
+  dispatch => ({
+    handleLoss: () => dispatch(handleGameLoss()),
+    handleWin: () => dispatch(handleGameWin()),
+    handleStart: () => dispatch(handleGameInProgress())
+  })
 )(Board);
