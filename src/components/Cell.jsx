@@ -43,7 +43,6 @@ const Cell = ({
   handleStartTimer,
   gameStatus
 }) => {
-  console.log(gameStatus);
   if (gameStatus === 'WON') {
     cellData.status = 'UNCOVERED';
     return (
@@ -86,7 +85,7 @@ const Cell = ({
         </div>
       );
     }
-  } else if (gameStatus === 'LOST') {
+  } else if (gameStatus === 'LOSS' || gameStatus === 'WON') {
     if (cellData.status === 'BOMBED') {
       return (
         <div className={generateClass(cellData)}>

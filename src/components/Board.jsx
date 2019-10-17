@@ -5,7 +5,7 @@ import handleGameInProgress from '../actions/handleGameInProgress.js';
 import handleGameLoss from '../actions/handleGameLoss.js';
 import handleGameWin from '../actions/handleGameWin.js';
 
-const Board = ({ matrix, startTime, hanldeLoss, handleWin, handleStart }) => {
+const Board = ({ matrix, handleLoss, handleWin, handleStart }) => {
   let gameStatus = '';
   const numUncovered = Object.values(matrix).reduce((memo, { status }) => {
     if (memo === -1 || status === 'BOMBED') {
@@ -42,7 +42,6 @@ const Board = ({ matrix, startTime, hanldeLoss, handleWin, handleStart }) => {
 export default connect(
   state => ({
     matrix: state.matrix,
-    startTime: state.startTime,
     initialized: state.initialized
   }),
   dispatch => ({

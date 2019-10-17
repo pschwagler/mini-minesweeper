@@ -1,4 +1,4 @@
-const timerReducer = (state = new Date(0), action) => {
+const timerReducer = (state = 0, action) => {
   switch (action.type) {
     case 'START_TIMER':
       return action.startTime;

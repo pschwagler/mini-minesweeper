@@ -5,7 +5,7 @@ const gameStatusReducer = (state = '', action) => {
     case 'GAME_STATUS_LOSS':
       return 'LOSS';
     case 'GAME_STATUS_WIN':
-      return 'WIN';
+      return 'WON';
     default:
       return state;
   }

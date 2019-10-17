@@ -9,7 +9,9 @@ class ScoreBoard extends React.Component {
   }
 
   tick() {
-    this.setState({ seconds: (Date.now() - this.props.startTime) / 1000 });
+    if (this.props.startTime !== 0 && this.props.gameStatus === 'IN_PROGRESS') {
+      this.setState({ seconds: (Date.now() - this.props.startTime) / 1000 });
+    }
   }
 
   render() {
@@ -24,7 +26,8 @@ class ScoreBoard extends React.Component {
 
 export default connect(
   state => ({
-    startTime: state.startTime
+    startTime: state.startTime,
+    gameStatus: state.gameStatus
   }),
   null
 )(ScoreBoard);
