@@ -19,7 +19,17 @@ class ScoreBoard extends React.Component {
     return (
       <div className='score-board-container'>
         <div className='timer'>{this.state.seconds}</div>
-        <img onClick={this.props.handleRestart} src='favicon.ico'></img>
+        <img
+          onClick={this.props.handleRestart}
+          src={
+            this.props.gameStatus === 'IN_PROGRESS'
+              ? 'start_face.jpg'
+              : this.props.gameStatus === 'LOSS'
+              ? 'dead_face.jpg'
+              : 'win_face.jpg'
+          }
+          className='smily'
+        ></img>
       </div>
     );
   }
