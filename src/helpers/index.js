@@ -48,7 +48,6 @@ const helperFxns = {
     const [row, col] = coords.split(',');
     const noBombZone = getAdjacents(row, col);
     noBombZone.push(coords);
-    console.log(noBombZone);
     for (let i = 0; numBombs !== 0; i++) {
       if (
         noBombZone.reduce((memo, coords) => {

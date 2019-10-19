@@ -64,6 +64,8 @@ const Cell = ({
           onClick={() => {
             if (!initialized) {
               handleInitializeBombs(coords);
+              // TODO: change name of initializematrix to something else
+              // i.e. markInitialized
               handleInitializeMatrix();
               handleStartTimer();
             } else {

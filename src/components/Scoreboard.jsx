@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import restartMatrix from '../actions/restartMatrix.js';
+import resetTimer from '../actions/handleResetTimer.js';
 
 class ScoreBoard extends React.Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class ScoreBoard extends React.Component {
   }
 
   tick() {
-    if (this.props.startTime !== 0 && this.props.gameStatus === 'IN_PROGRESS') {
+    if (this.props.startTime === 0) {
+      this.setState({ seconds: 0 });
+    } else if (this.props.gameStatus === 'IN_PROGRESS') {
       this.setState({ seconds: (Date.now() - this.props.startTime) / 1000 });
     }
   }
@@ -41,6 +44,9 @@ export default connect(
     gameStatus: state.gameStatus
   }),
   dispatch => ({
-    handleRestart: () => dispatch(restartMatrix())
+    handleRestart: () => {
+      dispatch(restartMatrix());
+      dispatch(resetTimer());
+    }
   })
 )(ScoreBoard);
