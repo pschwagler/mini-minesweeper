@@ -41,8 +41,7 @@ const Board = ({ matrix, handleLoss, handleWin, handleStart }) => {
 // export default Todo;
 export default connect(
   state => ({
-    matrix: state.matrix,
-    initialized: state.initialized
+    matrix: state.matrix
   }),
   dispatch => ({
     handleLoss: () => dispatch(handleGameLoss()),

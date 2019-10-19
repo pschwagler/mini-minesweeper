@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import restartMatrix from '../actions/restartMatrix.js';
 
 class ScoreBoard extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class ScoreBoard extends React.Component {
     return (
       <div className='score-board-container'>
         <div className='timer'>{this.state.seconds}</div>
-        <img src='favicon.ico'></img>
+        <img onClick={this.props.handleRestart} src='favicon.ico'></img>
       </div>
     );
   }
@@ -29,5 +30,7 @@ export default connect(
     startTime: state.startTime,
     gameStatus: state.gameStatus
   }),
-  null
+  dispatch => ({
+    handleRestart: () => dispatch(restartMatrix())
+  })
 )(ScoreBoard);
