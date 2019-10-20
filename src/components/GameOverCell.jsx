@@ -2,7 +2,7 @@ import React from 'react';
 import generateClass from '../helpers/generateClass.js';
 import { connect } from 'react-redux';
 
-const WonCell = ({ cellData }) => {
+const GameOverCell = ({ cellData }) => {
   cellData.status = 'UNCOVERED';
   if (cellData.isBomb) {
     return (
@@ -30,4 +30,4 @@ export default connect(
     cellData: state.matrix[coords]
   }),
   null
-)(WonCell);
+)(GameOverCell);
