@@ -12,6 +12,12 @@ const matrixReducer = (state = initialState, action) => {
       }
       helperFxns.uncoverCell(newState, action.coords);
       return newState;
+    case 'UNCOVER_ADJACENTS':
+      for (let coords of Object.keys(state)) {
+        newState[coords] = { ...state[coords] };
+      }
+      helperFxns.unCoverAdjacents(newState, action.coords);
+      return newState;
     case 'FLAG_CELL':
       for (let coords of Object.keys(state)) {
         newState[coords] = { ...state[coords] };

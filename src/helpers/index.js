@@ -103,6 +103,22 @@ const helperFxns = {
         }
       }
     }
+  },
+
+  unCoverAdjacents: (matrix, currCoords) => {
+    const [row, col] = currCoords.split(',').map(num => +num);
+    const adjacentCoords = getAdjacents(row, col);
+    const numAdjacentFlags = adjacentCoords.reduce(
+      (memo, cell) => (matrix[cell].status === 'FLAGGED' ? memo + 1 : memo),
+      0
+    );
+    if (numAdjacentFlags === matrix[currCoords].number) {
+      for (let coords of adjacentCoords) {
+        if (matrix[coords] && matrix[coords].status === 'DEFAULT') {
+          helperFxns.uncoverCell(matrix, coords);
+        }
+      }
+    }
   }
 };
 
