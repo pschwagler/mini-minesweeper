@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import uncoverCell from '../actions/unCoverCell.js';
+import flagCell from '../actions/flagCell.js';
+import unflagCell from '../actions/unflagCell.js';
 import initializeMatrix from '../actions/initializeMatrix.js';
 import initializeBombs from '../actions/initializeBombs.js';
 import startTimer from '../actions/startTimer.js';
 
 const generateClass = cellData => {
-  if (cellData.status === 'DEFAULT') {
+  if (cellData.status === 'DEFAULT' || cellData.status === 'FLAGGED') {
     return 'unclicked';
   } else if (cellData.status === 'UNCOVERED') {
     if (cellData.number === 0) {
@@ -37,12 +39,15 @@ const Cell = ({
   cellData,
   coords,
   handleUncoverCell,
+  handleFlagCell,
+  handleUnflagCell,
   initialized,
   handleInitializeMatrix,
   handleInitializeBombs,
   handleStartTimer,
   gameStatus
 }) => {
+  // TODO: Make all different types of cells into their own components
   if (gameStatus === 'WON') {
     cellData.status = 'UNCOVERED';
     return (
@@ -61,7 +66,7 @@ const Cell = ({
       return (
         <div
           className={generateClass(cellData)}
-          onClick={() => {
+          onClick={event => {
             if (!initialized) {
               handleInitializeBombs(coords);
               // TODO: change name of initializematrix to something else
@@ -72,12 +77,28 @@ const Cell = ({
               handleUncoverCell(coords);
             }
           }}
+          onContextMenu={event => {
+            event.preventDefault();
+            handleFlagCell(coords);
+          }}
         ></div>
       );
     } else if (cellData.status === 'UNCOVERED') {
       return (
         <div className={generateClass(cellData)}>
           {cellData.number === 0 ? '' : cellData.number}
+        </div>
+      );
+    } else if (cellData.status === 'FLAGGED') {
+      return (
+        <div
+          className={generateClass(cellData)}
+          onContextMenu={event => {
+            event.preventDefault();
+            handleUnflagCell(coords);
+          }}
+        >
+          <img src='flag.png' className='cell-img'></img>
         </div>
       );
     } else if (cellData.status === 'BOMBED') {
@@ -122,6 +143,8 @@ export default connect(
     handleInitializeMatrix: () => dispatch(initializeMatrix()),
     handleInitializeBombs: coords => dispatch(initializeBombs(coords)),
     handleUncoverCell: coords => dispatch(uncoverCell(coords)),
+    handleFlagCell: coords => dispatch(flagCell(coords)),
+    handleUnflagCell: coords => dispatch(unflagCell(coords)),
     handleStartTimer: () => dispatch(startTimer())
   })
 )(Cell);
