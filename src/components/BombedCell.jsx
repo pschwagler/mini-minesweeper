@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import generateClass from '../helpers/generateClass.js';
 
 const BombedCell = ({ cellData }) => (
-  <div className={generateClass(cellData)}>
+  <div
+    className={generateClass(cellData)}
+    onContextMenu={event => event.preventDefault()}
+  >
     <img src='bomb-logo.png' className='cell-img'></img>
   </div>
 );

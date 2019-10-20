@@ -7,6 +7,7 @@ const UnCoveredCell = ({ coords, cellData, handleUnCoverAdjacents }) => (
   <div
     className={generateClass(cellData)}
     onClick={() => handleUnCoverAdjacents(coords)}
+    onContextMenu={event => event.preventDefault()}
   >
     {cellData.number === 0 ? '' : cellData.number}
   </div>

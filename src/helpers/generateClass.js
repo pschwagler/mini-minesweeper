@@ -2,7 +2,7 @@ const generateClass = cellData => {
   if (cellData.status === 'DEFAULT' || cellData.status === 'FLAGGED') {
     return 'unclicked';
   } else if (cellData.status === 'UNCOVERED') {
-    if (cellData.number === 0) {
+    if (cellData.number === 0 || cellData.isBomb) {
       return 'cleared';
     } else if (cellData.number === 1) {
       return 'cleared one';

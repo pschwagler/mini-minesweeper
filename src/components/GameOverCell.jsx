@@ -4,25 +4,20 @@ import { connect } from 'react-redux';
 
 const GameOverCell = ({ cellData }) => {
   cellData.status = 'UNCOVERED';
-  if (cellData.isBomb) {
-    return (
-      <div className='cleared'>
+  return (
+    <div
+      className={generateClass(cellData)}
+      onContextMenu={event => event.preventDefault()}
+    >
+      {cellData.isBomb ? (
         <img src='bomb-logo.png' className='cell-img'></img>
-      </div>
-    );
-  } else {
-    return (
-      <div className={generateClass(cellData)}>
-        {cellData.isBomb ? (
-          <img src='bomb-logo.png' className='cell-img'></img>
-        ) : cellData.number === 0 ? (
-          ''
-        ) : (
-          cellData.number
-        )}
-      </div>
-    );
-  }
+      ) : cellData.number === 0 ? (
+        ''
+      ) : (
+        cellData.number
+      )}
+    </div>
+  );
 };
 
 export default connect(
